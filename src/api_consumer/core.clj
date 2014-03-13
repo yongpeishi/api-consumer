@@ -1,6 +1,8 @@
-(ns api-consumer.core)
+(ns api-consumer.core
+    (:require [org.httpkit.client :as http]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(http/get "http://localhost:5000"
+          (fn [{:keys [status headers body error]}] ;; asynchronous handle response
+            (if error
+              (println "Failed, exception is " error)
+              (println "Async HTTP GET: " status))))
