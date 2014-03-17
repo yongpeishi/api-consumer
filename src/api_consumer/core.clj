@@ -1,8 +1,6 @@
 (ns api-consumer.core
-    (:require [org.httpkit.client :as http]))
+    (:require [org.httpkit.client :as http]
+              [cheshire.core :refer :all]))
 
-(http/get "http://localhost:5000"
-          (fn [{:keys [status headers body error]}] ;; asynchronous handle response
-            (if error
-              (println "Failed, exception is " error)
-              (println "Async HTTP GET: " status))))
+(let [response1 (http/get "http://localhost:5000/")]
+  (println "response1's body: " (parse-string (:body @response1))))
